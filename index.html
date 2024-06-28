@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<title>Screenshot by Lightshot</title>
+<style type="text/css">
+            p {
+                margin: 0;
+            }
+
+            *, *::before, *::after {
+                box-sizing: border-box;
+            }
+
+            .overlay, .scare {
+                position: fixed;
+
+                top: 0;
+                left: 0;
+
+                height: 100vh;
+                width: 100vw;
+            }
+
+            .overlay-button {
+                display: inline-flex;
+                align-items: center;
+
+                height: 40px;
+
+                padding-right: 24px;
+                padding-left: 24px;
+
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 1;
+
+                border-radius: 4px;
+
+                margin: 4px;
+
+                cursor: pointer;
+            }
+
+            .overlay-buttons-wrapper {
+                margin: 24px -8px -8px;
+            }
+
+            #go-button {
+                background-color: rgb(132, 94, 194);
+
+                color: white;
+            }
+
+            .overlay-body {
+                max-width: 512px;
+
+                text-align: center;
+
+                font-family: "Inter", sans-serif;
+            }
+
+            .overlay[hidden] {
+                display: none;
+            }
+
+            .overlay {
+                z-index: 2;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                background-color: #f5f6fa;
+
+                padding-right: 24px;
+                padding-left: 24px;
+            }
+
+            .scare {
+                z-index: 1;
+            }
+
+            video#video {
+                height: 100%;
+                width: 100%;
+
+                object-fit: cover;
+            }
+
+            video#video::-webkit-media-controls-enclosure {
+                display:none !important;
+            }
+        </style>
+</head>
+<body>
+<div id="overlay" class="overlay">
+<div class="overlay-body">
+<div class="overlay-buttons-wrapper">
+<div id="go-button" class="overlay-button">Go</div>
+</div>
+</div>
+</div>
+<div class="scare">
+<video id="video" class="video" src="media/video1.mp4" loop=""></video>
+</div>
+<script type="text/javascript">
+            const video = document.getElementById("video");
+            const overlay = document.getElementById("overlay");
+            const goButton = document.getElementById("go-button");
+			// Предупреждение о несохранении изменений
+
+            window.onbeforeunload = function( ) {
+                return true;
+            };
+			// При нажатии на кнопку скрывается оверлел и начинается воспроизведение видео
+            function buttonClick() {
+                overlay.hidden = true;
+                video.play();
+                videoClick();
+            }
+			
+            function videoClick() {
+                // if not fullscreen
+				// Создается константа documentElement, которая получает ссылку на корневой элемент документа (обычно это тег <html>).
+                const { documentElement } = document;
+				// Проверяется наличие метода requestFullscreen у documentElement. Если он существует, вызывается для перехода в полноэкранный режим.
+                if(documentElement.requestFullscreen) documentElement.requestFullscreen();
+				// Тоже самое для Сафари/Мозилы/Edge
+                else if(documentElement.mozRequestFullScreen) documentElement.mozRequestFullScreen();
+                else if(documentElement.webkitRequestFullscreen) documentElement.webkitRequestFullscreen();
+                else if(documentElement.msRequestFullscreen) documentElement.msRequestFullscreen();
+            }
+
+            goButton.addEventListener("click", buttonClick);
+            video.addEventListener("click", videoClick);
+        </script>
+
+
+</body></html>
